@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  washapp-db:
+    build: ./database
+    container_name: washapp-db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: washappDatabase
+      POSTGRES_USER: washapp
+      POSTGRES_PASSWORD: washapp123
+    volumes:
+      - washapp-db-data:/var/lib/postgresql/data
+
+  washapp-backend:
+    build:
+      context: ./Spring-back
+      dockerfile: Dockerfile
+    container_name: washapp-backend
+    depends_on:
+      - washapp-db
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://washapp-db:5432/washappDatabase
+      SPRING_DATASOURCE_USERNAME: washapp
+      SPRING_DATASOURCE_PASSWORD: washapp123
+    restart: unless-stopped
+
+volumes:
+  washapp-db-data:
