@@ -1,5 +1,8 @@
 package ru.nsu.washapp.controller;
 
+import jakarta.validation.Valid;
+import ru.nsu.washapp.dto.RegisterRequest;
+import ru.nsu.washapp.dto.LoginRequest;
 import ru.nsu.washapp.model.User;
 import ru.nsu.washapp.model.Role;
 import ru.nsu.washapp.repository.UserRepository;
@@ -20,24 +23,32 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
-
     @PostMapping("/register")
-    public String register(@RequestBody User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(Role.USER);
+    public String register(@Valid @RequestBody RegisterRequest request) {
+
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new RuntimeException("User with this email already exists");
+        }
+
+        User user = User.builder()
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(Role.USER)
+                .build();
+
         userRepository.save(user);
+
         return "User registered successfully!";
     }
 
     @PostMapping("/login")
-    public Map<String, String> login(@RequestBody User user) {
-        System.out.println(">>> Login endpoint reached: " + user.getEmail());
-        var existingUser = userRepository.findByEmail(user.getEmail())
+    public Map<String, String> login(@Valid @RequestBody LoginRequest request) {
+        var existingUser = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         System.out.println("Found user: " + existingUser.getEmail());
 
-        if (!passwordEncoder.matches(user.getPassword(), existingUser.getPassword())) {
+        if (!passwordEncoder.matches(request.getPassword(), existingUser.getPassword())) {
             throw new RuntimeException("Invalid password");
         }
 
@@ -46,6 +57,4 @@ public class AuthController {
 
         return Map.of("token", jwt);
     }
-
-
 }
