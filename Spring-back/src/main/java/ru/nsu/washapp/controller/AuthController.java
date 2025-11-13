@@ -31,7 +31,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public Map<String, String> login(@RequestBody User user) {
-        System.out.println("Login attempt: " + user.getEmail());
+        System.out.println(">>> Login endpoint reached: " + user.getEmail());
         var existingUser = userRepository.findByEmail(user.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
