@@ -1,3 +1,5 @@
+import { tokenStorage } from "@/shared/storage/token";
+import { AuthService } from "@/features/auth/services/AuthService";
 import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { Link } from "expo-router";
@@ -5,6 +7,17 @@ import { Link } from "expo-router";
 export const LoginScreen = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const handleLogin = async () => {
+        try {
+            const token = await AuthService.login(email, password);
+            console.log("Успешный вход! JWT:", token);
+
+            // TODO: переход на главный экран после реализации
+        } catch (e: any) {
+            console.log("Ошибка входа:", e.response?.data || e.message);
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -24,7 +37,7 @@ export const LoginScreen = () => {
                 secureTextEntry
             />
 
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
                 <Text style={styles.buttonText}>Войти</Text>
             </TouchableOpacity>
 
