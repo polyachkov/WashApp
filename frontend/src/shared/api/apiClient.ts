@@ -9,8 +9,16 @@ export const apiClient = axios.create({
 // Интерцептор — автоматически вставляет JWT в каждый запрос
 apiClient.interceptors.request.use(async (config) => {
     const token = await tokenStorage.getToken();
+    console.log("TOKEN FROM ASYNCSTORAGE:", token); // ← СМОТРЕТЬ ЗДЕСЬ
+
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
+    } else {
+        delete config.headers.Authorization;
     }
+
     return config;
 });
+
+
+
