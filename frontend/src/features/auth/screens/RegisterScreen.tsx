@@ -1,8 +1,10 @@
-import { tokenStorage } from "@/shared/storage/token";
-import { AuthService } from "@/features/auth/services/AuthService";
-import { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { Link } from "expo-router";
+import { useState } from "react";
+import { theme } from "@/shared/theme/theme";
+import { AppButton } from "@/shared/ui/AppButton";
+import { AppInput } from "@/shared/ui/AppInput";
+import { AuthService } from "@/features/auth/services/AuthService";
 
 export const RegisterScreen = () => {
     const [name, setName] = useState("");
@@ -14,38 +16,31 @@ export const RegisterScreen = () => {
         try {
             await AuthService.register(name, email, password);
             console.log("Регистрация успешна!");
-
-            // TODO — добавим redirect в login позже
         } catch (e: any) {
             console.log("Ошибка регистрации:", e.response?.data || e.message);
         }
     };
-    
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Регистрация</Text>
 
-            <TextInput style={styles.input} placeholder="Имя" value={name} onChangeText={setName} />
-            <TextInput style={styles.input} placeholder="Email" value={email} onChangeText={setEmail} />
-            <TextInput
-                style={styles.input}
+            <AppInput placeholder="Имя" value={name} onChangeText={setName} />
+            <AppInput placeholder="Email" value={email} onChangeText={setEmail} />
+            <AppInput
                 placeholder="Пароль"
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry
             />
-            <TextInput
-                style={styles.input}
+            <AppInput
                 placeholder="Подтвердите пароль"
                 value={confirm}
                 onChangeText={setConfirm}
                 secureTextEntry
             />
 
-            <TouchableOpacity style={styles.button} onPress={handleRegister}>
-                <Text style={styles.buttonText}>Зарегистрироваться</Text>
-            </TouchableOpacity>
-
+            <AppButton title="Зарегистрироваться" onPress={handleRegister} />
 
             <Link href="/(auth)/login" style={styles.link}>
                 <Text style={styles.linkText}>Уже есть аккаунт? Войти</Text>
@@ -55,11 +50,14 @@ export const RegisterScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1, justifyContent: "center", padding: 24 },
-    title: { fontSize: 28, fontWeight: "bold", marginBottom: 24, textAlign: "center" },
-    input: { borderWidth: 1, borderColor: "#ccc", borderRadius: 8, padding: 12, marginBottom: 16 },
-    button: { backgroundColor: "#007AFF", padding: 14, borderRadius: 8, alignItems: "center" },
-    buttonText: { color: "#fff", fontSize: 16, fontWeight: "bold" },
-    link: { marginTop: 16, alignItems: "center" },
-    linkText: { color: "#007AFF" },
+    container: { flex: 1, justifyContent: "center", padding: theme.spacing.lg },
+    title: {
+        fontSize: 28,
+        fontWeight: "700",
+        marginBottom: theme.spacing.lg,
+        textAlign: "center",
+        color: theme.colors.text,
+    },
+    link: { marginTop: theme.spacing.md, alignItems: "center" },
+    linkText: { color: theme.colors.primary },
 });

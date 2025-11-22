@@ -1,8 +1,10 @@
-import { tokenStorage } from "@/shared/storage/token";
-import { AuthService } from "@/features/auth/services/AuthService";
 import { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { Link } from "expo-router";
+import { theme } from "@/shared/theme/theme";
+import { AppInput } from "@/shared/ui/AppInput";
+import { AppButton } from "@/shared/ui/AppButton";
+import { AuthService } from "@/features/auth/services/AuthService";
 
 export const LoginScreen = () => {
     const [email, setEmail] = useState("");
@@ -12,8 +14,6 @@ export const LoginScreen = () => {
         try {
             const token = await AuthService.login(email, password);
             console.log("Успешный вход! JWT:", token);
-
-            // TODO: переход на главный экран после реализации
         } catch (e: any) {
             console.log("Ошибка входа:", e.response?.data || e.message);
         }
@@ -23,23 +23,15 @@ export const LoginScreen = () => {
         <View style={styles.container}>
             <Text style={styles.title}>Вход</Text>
 
-            <TextInput
-                style={styles.input}
-                placeholder="Email"
-                value={email}
-                onChangeText={setEmail}
-            />
-            <TextInput
-                style={styles.input}
+            <AppInput placeholder="Email" value={email} onChangeText={setEmail} />
+            <AppInput
                 placeholder="Пароль"
                 value={password}
-                onChangeText={setPassword}
                 secureTextEntry
+                onChangeText={setPassword}
             />
 
-            <TouchableOpacity style={styles.button} onPress={handleLogin}>
-                <Text style={styles.buttonText}>Войти</Text>
-            </TouchableOpacity>
+            <AppButton title="Войти" onPress={handleLogin} />
 
             <Link href="/(auth)/register" style={styles.link}>
                 <Text style={styles.linkText}>Нет аккаунта? Зарегистрироваться</Text>
@@ -49,17 +41,14 @@ export const LoginScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1, justifyContent: "center", padding: 24 },
-    title: { fontSize: 28, fontWeight: "bold", marginBottom: 24, textAlign: "center" },
-    input: {
-        borderWidth: 1,
-        borderColor: "#ccc",
-        borderRadius: 8,
-        padding: 12,
-        marginBottom: 16,
+    container: { flex: 1, justifyContent: "center", padding: theme.spacing.lg },
+    title: {
+        fontSize: 28,
+        fontWeight: "700",
+        marginBottom: theme.spacing.lg,
+        textAlign: "center",
+        color: theme.colors.text,
     },
-    button: { backgroundColor: "#007AFF", padding: 14, borderRadius: 8, alignItems: "center" },
-    buttonText: { color: "#fff", fontSize: 16, fontWeight: "bold" },
-    link: { marginTop: 16, alignItems: "center" },
-    linkText: { color: "#007AFF" },
+    link: { marginTop: theme.spacing.md, alignItems: "center" },
+    linkText: { color: theme.colors.primary },
 });
