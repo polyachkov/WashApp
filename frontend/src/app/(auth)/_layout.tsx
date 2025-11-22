@@ -1,11 +1,22 @@
-import { Stack } from "expo-router";
+import {Stack, useRouter} from "expo-router";
+import { TouchableOpacity, Text } from "react-native";
 
 export default function AuthLayout() {
+    const router = useRouter();
+
     return (
-        <Stack>
-            <Stack.Screen name="index" options={{ headerShown: false }} />
-            <Stack.Screen name="login" options={{ title: "Вход" }} />
-            <Stack.Screen name="register" options={{ title: "Регистрация" }} />
-        </Stack>
+        <Stack
+            screenOptions={{
+                headerTitle: "",
+                headerLeft: () => (
+                    <TouchableOpacity
+                        onPress={() => router.replace("/")}
+                        style={{ paddingHorizontal: 16 }}
+                    >
+                        <Text style={{ fontSize: 16 }}>Назад</Text>
+                    </TouchableOpacity>
+                ),
+            }}
+        />
     );
 }
