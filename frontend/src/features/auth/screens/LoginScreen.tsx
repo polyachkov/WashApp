@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Link } from "expo-router";
+import {Link, router} from "expo-router";
 import { theme } from "@/shared/theme/theme";
 import { AppInput } from "@/shared/ui/AppInput";
 import { AppButton } from "@/shared/ui/AppButton";
@@ -13,7 +13,10 @@ export const LoginScreen = () => {
     const handleLogin = async () => {
         try {
             const token = await AuthService.login(email, password);
+
             console.log("Успешный вход! JWT:", token);
+
+            router.replace("/(main)/wash");
         } catch (e: any) {
             console.log("Ошибка входа:", e.response?.data || e.message);
         }

@@ -13,10 +13,10 @@ export default function RootLayout() {
   return (
       // <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <ThemeProvider value={DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          {/* Здесь позже можно добавить вкладки (tabs) */}
-        </Stack>
+          <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="(auth)" />
+              <Stack.Screen name="(main)" />
+          </Stack>
         <StatusBar style="auto" />
       </ThemeProvider>
   );
