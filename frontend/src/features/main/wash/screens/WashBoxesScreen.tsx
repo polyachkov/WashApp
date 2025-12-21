@@ -31,8 +31,6 @@ export const WashBoxesScreen = () => {
 
     return (
         <View style={styles.container}>
-            <Header />
-
             {/* Адрес */}
             <View style={styles.address}>
                 <Text style={styles.addressText}>

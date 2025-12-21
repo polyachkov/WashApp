@@ -10,8 +10,6 @@ export default function BoxInfoScreen() {
 
     return (
         <View style={styles.container}>
-            <Header />
-
             {/* КНОПКА НАЗАД */}
             <Pressable onPress={() => router.replace("/(main)/wash")} style={styles.backButton}>
                 <Text style={styles.backText}>← Назад</Text>
