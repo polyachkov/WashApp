@@ -5,12 +5,14 @@ type AppButtonProps = {
     title: string;
     onPress: () => void;
     variant?: "primary" | "secondary";
+    disabled?: boolean;
 };
 
-export const AppButton = ({ title, onPress, variant = "primary" }: AppButtonProps) => (
+export const AppButton = ({ title, onPress, variant = "primary", disabled = false }: AppButtonProps) => (
     <TouchableOpacity
         style={[styles.button, variant === "secondary" && styles.secondary]}
         onPress={onPress}
+        disabled={disabled}
     >
         <Text
             style={[
@@ -48,4 +50,8 @@ const styles = StyleSheet.create({
     secondaryText: {
         color: theme.colors.primary,
     },
+
+    disabled: {
+        opacity: 0.5,
+    }
 });

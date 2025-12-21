@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import { Link } from "expo-router";
+import {Link, router} from "expo-router";
 import { useState } from "react";
 import { theme } from "@/shared/theme/theme";
 import { AppButton } from "@/shared/ui/AppButton";
@@ -15,7 +15,10 @@ export const RegisterScreen = () => {
     const handleRegister = async () => {
         try {
             await AuthService.register(name, email, password);
+
             console.log("Регистрация успешна!");
+
+            router.replace("/(main)/wash");
         } catch (e: any) {
             console.log("Ошибка регистрации:", e.response?.data || e.message);
         }
