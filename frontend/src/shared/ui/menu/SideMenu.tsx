@@ -69,7 +69,7 @@ export const SideMenu = () => {
                 <MenuItem
                     title="Мои сессии"
                     onPress={() => {
-                        router.push("/sessions");
+                        router.push("/wash/sessions");
                         close();
                     }}
                 />
