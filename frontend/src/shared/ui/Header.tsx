@@ -1,19 +1,21 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { useRouter } from "expo-router";
 import { theme } from "@/shared/theme/theme";
+import {useMenu} from "@/shared/ui/menu/MenuContext";
 
 export const Header = () => {
     const router = useRouter();
+    const { toggle } = useMenu();
 
     return (
         <View style={styles.header}>
-            <Pressable onPress={() => router.push("/menu")}>
+            <Pressable onPress={toggle}>
                 <Text style={styles.icon}>≡</Text>
             </Pressable>
 
             <Text style={styles.balance}>Баллы: 228</Text>
 
-            <Pressable onPress={() => router.push("/profile")}>
+            <Pressable onPress={() => router.replace("/(main)/profile")}>
                 <Text style={styles.icon}>👤</Text>
             </Pressable>
         </View>
