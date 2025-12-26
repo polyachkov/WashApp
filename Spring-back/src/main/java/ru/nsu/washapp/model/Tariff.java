@@ -2,6 +2,7 @@ package ru.nsu.washapp.model;
 
 import lombok.*;
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "tariff")
@@ -20,8 +21,8 @@ public class Tariff {
     private String name;
 
 
-    @Column(name = "price_per_minute", nullable = false)
-    private Double pricePerMinute;
+    @Column(name = "price_per_minute", nullable = false, precision = 10, scale = 2)
+    private BigDecimal pricePerMinute;
 
 
     private String description;
