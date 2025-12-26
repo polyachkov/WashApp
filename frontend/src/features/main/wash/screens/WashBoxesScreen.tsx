@@ -37,10 +37,12 @@ export const WashBoxesScreen = () => {
                     Адрес: Новосибирск, Иванова 1, 1
                 </Text>
 
-                <AppButton
-                    title="На карте"
-                    onPress={() => router.push("/map")}
-                />
+                <View style={styles.mapBtnWrap}>
+                    <AppButton
+                        title="Карта"
+                        onPress={() => router.push("/(main)/wash/map")}
+                    />
+                </View>
             </View>
 
             <Text style={styles.title}>Выберите бокс для записи</Text>
@@ -69,21 +71,29 @@ const styles = StyleSheet.create({
     address: {
         margin: 16,
         padding: 12,
+        height: 60,
         borderWidth: 2,
         borderColor: theme.colors.primary,
         borderRadius: 20,
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-between",
     },
 
     addressText: {
-        fontSize: 16,
+        fontSize: 12,
         fontWeight: "700",
-        color: theme.colors.text,
+        color: theme.colors.textMuted, // как в макете
         flex: 1,
-        marginRight: 8,
+        marginRight: 12,
     },
+
+    mapBtnWrap: {
+        width: 100,
+        height: 10,
+        justifyContent: "center",
+        alignItems: "center",   // по горизонтали
+    },
+
 
     title: {
         fontSize: 22,

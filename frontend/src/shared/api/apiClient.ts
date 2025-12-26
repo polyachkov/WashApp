@@ -6,20 +6,17 @@ export const apiClient = axios.create({
     headers: { "Content-Type": "application/json" },
 });
 
-// Интерцептор — автоматически вставляет JWT в каждый запрос
-apiClient.interceptors.request.use(async (config) => {
-    const token = await tokenStorage.getToken();
-    console.log("TOKEN FROM ASYNCSTORAGE:", token); // ← СМОТРЕТЬ ЗДЕСЬ
+const PUBLIC_PATHS = ["/api/v1/auth/login", "/api/v1/auth/register"];
 
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    } else {
-        delete config.headers.Authorization;
+apiClient.interceptors.request.use(async (config) => {
+    const url = config.url ?? "";
+    const isPublic = PUBLIC_PATHS.some((p) => url.includes(p));
+    if (isPublic) {
+        delete (config.headers as any)?.Authorization;
+        return config;
     }
 
+    const token = await tokenStorage.getToken();
+    if (token) (config.headers as any).Authorization = `Bearer ${token}`;
     return config;
 });
-
-
-
-
