@@ -10,11 +10,13 @@ export const AuthService = {
         return token;
     },
 
-    async register(name: string, email: string, password: string) {
+    async register(email: string, password: string, confirmPassword: string) {
         const response = await apiClient.post("/auth/register", {
             email,
-            password
+            password,
+            confirm_password: confirmPassword,
         });
+
         return response.data;
     },
 };
