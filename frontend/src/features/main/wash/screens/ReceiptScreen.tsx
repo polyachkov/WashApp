@@ -1,0 +1,95 @@
+import {View, Text, StyleSheet, ScrollView, Pressable} from "react-native";
+import { useRouter } from "expo-router";
+import { theme } from "@/shared/theme/theme";
+import { AppButton } from "@/shared/ui/AppButton";
+import { Header } from "@/shared/ui/Header";
+import { BoxCard } from "@/shared/ui/BoxCard";
+import {SessionCard} from "@/shared/ui/SessionCard";
+import {ReceiptCard} from "@/shared/ui/ReceiptCard";
+
+const MOCK_RECEIPTS = [
+    {
+        id: "1",
+        number: 12133456,
+    },
+    {
+        id: "2",
+        number: 23423424,
+    },
+] as const;
+
+export const ReceiptScreen = () => {
+    const router = useRouter();
+
+    return (
+        <View style={styles.container}>
+            <Pressable onPress={() => router.replace("/(main)/wash")} style={styles.backButton}>
+                <Text style={styles.backText}>← Назад</Text>
+            </Pressable>
+
+            <Text style={styles.title}>Мои чеки</Text>
+
+            <ScrollView contentContainerStyle={styles.list}>
+                {MOCK_RECEIPTS.map(session => (
+                    <ReceiptCard
+                        key={session.id}
+                        number={session.number}
+                        // onPress={() => router.replace(`(main)/wash/sessions?sessionId=${sessions.id}`)}
+                        onPress={() => print()}
+                    />
+                ))}
+            </ScrollView>
+        </View>
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: theme.colors.white,
+    },
+
+    address: {
+        margin: 16,
+        padding: 12,
+        borderWidth: 2,
+        borderColor: theme.colors.primary,
+        borderRadius: 20,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+    },
+
+    addressText: {
+        fontSize: 16,
+        fontWeight: "700",
+        color: theme.colors.text,
+        flex: 1,
+        marginRight: 8,
+    },
+
+    title: {
+        fontSize: 22,
+        fontWeight: "700",
+        textAlign: "center",
+        color: theme.colors.text,
+        marginVertical: 16,
+    },
+
+    list: {
+        paddingHorizontal: 16,
+        paddingBottom: 24,
+    },
+
+    backButton: {
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+    },
+
+    backText: {
+        fontSize: 16,
+        fontWeight: "600",
+        color: theme.colors.primary,
+    },
+});
+
