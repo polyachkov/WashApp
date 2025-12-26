@@ -1,4 +1,5 @@
 import { apiClient } from "@/shared/api/apiClient";
+import {Page} from "@/shared/api/types";
 
 export type CarWash = {
     id: number;
@@ -9,13 +10,6 @@ export type CarWash = {
     created_at?: string;
 };
 
-type Page<T> = {
-    content: T[];
-    page: number;
-    size: number;
-    total_elements: number;
-    total_pages: number;
-};
 
 const MOCK_CAR_WASHES: CarWash[] = [
     {
@@ -35,19 +29,21 @@ const MOCK_CAR_WASHES: CarWash[] = [
 ];
 
 export const CarWashesService = {
-    async list(params?: { search?: string; lat?: number; lng?: number; radius_km?: number }) {
-        try {
-            const res = await apiClient.get<Page<CarWash>>("/car-washes", { params });
-            return res.data;
-        } catch {
-            // fallback на моки, пока бэк не готов
-            return {
-                content: MOCK_CAR_WASHES,
-                page: 0,
-                size: MOCK_CAR_WASHES.length,
-                total_elements: MOCK_CAR_WASHES.length,
-                total_pages: 1,
-            } satisfies Page<CarWash>;
-        }
+    // GET /api/v1/car-washes?page&size&search  (search — по имени/адресу):contentReference[oaicite:3]{index=3}
+    async list(params?: { page?: number; size?: number; search?: string }) {
+        const res = await apiClient.get<Page<CarWash>>("/car-washes", {
+            params: {
+                page: params?.page ?? 0,
+                size: params?.size ?? 20,
+                ...(params?.search ? { search: params.search } : {}),
+            },
+        });
+        return res.data;
+    },
+
+    // GET /api/v1/car-washes/{id}:contentReference[oaicite:4]{index=4}
+    async get(id: number) {
+        const res = await apiClient.get<CarWash>(`/car-washes/${id}`);
+        return res.data;
     },
 };
