@@ -28,6 +28,16 @@ services:
       SPRING_DATASOURCE_USERNAME: washapp
       SPRING_DATASOURCE_PASSWORD: washapp123
     restart: unless-stopped
+  washapp-tests:
+    image: gradle:8.10.2-jdk21-alpine
+    working_dir: /workspace
+    volumes:
+      - ./Spring-back:/workspace
+      - gradle-cache:/home/gradle/.gradle
+    command: ["./gradlew", "test", "--no-daemon"]
+    depends_on:
+      - washapp-db
 
 volumes:
   washapp-db-data:
+  gradle-cache:
