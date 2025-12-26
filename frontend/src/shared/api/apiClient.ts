@@ -20,8 +20,3 @@ apiClient.interceptors.request.use(async (config) => {
     if (token) (config.headers as any).Authorization = `Bearer ${token}`;
     return config;
 });
-
-
-
-
-
