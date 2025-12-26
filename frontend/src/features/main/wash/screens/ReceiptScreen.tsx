@@ -5,21 +5,20 @@ import { AppButton } from "@/shared/ui/AppButton";
 import { Header } from "@/shared/ui/Header";
 import { BoxCard } from "@/shared/ui/BoxCard";
 import {SessionCard} from "@/shared/ui/SessionCard";
+import {ReceiptCard} from "@/shared/ui/ReceiptCard";
 
-const MOCK_SESSIONS = [
+const MOCK_RECEIPTS = [
     {
         id: "1",
         number: 12133456,
-        status: "ACTIVE",
     },
     {
         id: "2",
         number: 23423424,
-        status: "CLOSED",
     },
 ] as const;
 
-export const SessionScreen = () => {
+export const ReceiptScreen = () => {
     const router = useRouter();
 
     return (
@@ -28,14 +27,13 @@ export const SessionScreen = () => {
                 <Text style={styles.backText}>← Назад</Text>
             </Pressable>
 
-            <Text style={styles.title}>Мои сессии</Text>
+            <Text style={styles.title}>Мои чеки</Text>
 
             <ScrollView contentContainerStyle={styles.list}>
-                {MOCK_SESSIONS.map(session => (
-                    <SessionCard
+                {MOCK_RECEIPTS.map(session => (
+                    <ReceiptCard
                         key={session.id}
                         number={session.number}
-                        status={session.status}
                         // onPress={() => router.replace(`(main)/wash/sessions?sessionId=${sessions.id}`)}
                         onPress={() => print()}
                     />

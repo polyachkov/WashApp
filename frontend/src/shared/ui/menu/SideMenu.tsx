@@ -77,7 +77,7 @@ export const SideMenu = () => {
                 <MenuItem
                     title="Чеки"
                     onPress={() => {
-                        router.push("/receipts");
+                        router.push("/wash/receipts");
                         close();
                     }}
                 />

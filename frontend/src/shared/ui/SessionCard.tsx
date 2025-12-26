@@ -24,7 +24,7 @@ export const SessionCard = ({
             </Text>
 
             <Text style={styles.status}>
-                Статус: {status === "ACTIVE" ? "свободен" : "занят"}
+                Статус: {status === "ACTIVE" ? "активна" : "завершена"}
             </Text>
 
             <AppButton
