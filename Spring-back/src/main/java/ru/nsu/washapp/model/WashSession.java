@@ -4,6 +4,7 @@ import lombok.*;
 import jakarta.persistence.*;
 
 import java.time.OffsetDateTime;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "wash_session")
@@ -41,8 +42,8 @@ public class WashSession {
     private OffsetDateTime endedAt;
 
 
-    @Column(name = "total_amount")
-    private Double totalAmount;
+    @Column(name = "total_amount", precision = 10, scale = 2)
+    private BigDecimal totalAmount;
 
 
     @Column(nullable = false, length = 50)

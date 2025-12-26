@@ -9,9 +9,9 @@ import lombok.Data;
 public class LoginRequest {
     @Email(message = "Email must be valid")
     @NotBlank(message = "Email cannot be empty")
+    @Size(min = 3, max = 320, message = "Email length must be between 3 and 320 characters")
     private String email;
 
     @NotBlank(message = "Password cannot be empty")
-    @Size(min = 5, message = "Password must be at least 5 characters long")
     private String password;
 }
