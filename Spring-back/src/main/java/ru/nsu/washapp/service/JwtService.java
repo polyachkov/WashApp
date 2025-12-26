@@ -18,6 +18,7 @@ import java.util.function.Function;
 public class JwtService {
 
     private static final String SECRET_KEY = "fF1JdF9uS0FfV2xJZl9HQkRkZzZVbGxkQm1YV0V3Qm1VQQ==";
+    private static final long ACCESS_TOKEN_TTL_MS = 1000L * 60 * 60;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -37,9 +38,13 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) // 24h
+                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_TTL_MS))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    public long getAccessTokenTtlSeconds() {
+        return ACCESS_TOKEN_TTL_MS / 1000;
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {

@@ -3,6 +3,7 @@ package ru.nsu.washapp.model;
 import lombok.*;
 import jakarta.persistence.*;
 import java.time.OffsetDateTime;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "payment", uniqueConstraints = {
@@ -24,8 +25,8 @@ public class Payment {
     private WashSession session;
 
 
-    @Column(nullable = false)
-    private Double amount;
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal amount;
 
 
     @Column(nullable = false, length = 50)
