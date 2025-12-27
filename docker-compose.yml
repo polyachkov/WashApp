@@ -28,6 +28,7 @@ services:
       SPRING_DATASOURCE_USERNAME: washapp
       SPRING_DATASOURCE_PASSWORD: washapp123
     restart: unless-stopped
+
   washapp-tests:
     image: gradle:8.10.2-jdk21-alpine
     working_dir: /workspace
@@ -37,6 +38,32 @@ services:
     command: ["./gradlew", "test", "--no-daemon"]
     depends_on:
       - washapp-db
+
+  washapp-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: washapp-frontend
+    depends_on:
+      - washapp-backend
+    ports:
+      - "8081:8081"
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    environment:
+      EXPO_TELEMETRY_DISABLED: "1"
+      EXPO_PACKAGER_PORT: "8081"
+      REACT_NATIVE_PACKAGER_HOSTNAME: "localhost"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    tty: true
+    stdin_open: true
+
+    command: >
+      sh -lc "npm ci --no-audit --no-fund || npm install --no-audit --no-fund;
+      npx --yes expo start --web --port 8081 --host localhost --clear"
 
 volumes:
   washapp-db-data:
