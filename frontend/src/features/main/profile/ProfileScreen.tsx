@@ -292,25 +292,25 @@ export default function ProfileScreen() {
                             />
                             <View style={{ height: 10 }} />
 
-                            <View style={styles.row}>
-                                <TextInput
-                                    value={cwLat}
-                                    onChangeText={setCwLat}
-                                    placeholder="Latitude"
-                                    placeholderTextColor={theme.colors.textMuted}
-                                    style={[styles.input, styles.half]}
-                                    keyboardType="numeric"
-                                />
-                                <View style={{ width: 10 }} />
-                                <TextInput
-                                    value={cwLng}
-                                    onChangeText={setCwLng}
-                                    placeholder="Longitude"
-                                    placeholderTextColor={theme.colors.textMuted}
-                                    style={[styles.input, styles.half]}
-                                    keyboardType="numeric"
-                                />
-                            </View>
+                            <TextInput
+                                value={cwLat}
+                                onChangeText={setCwLat}
+                                placeholder="Latitude"
+                                placeholderTextColor={theme.colors.textMuted}
+                                style={styles.input}
+                                keyboardType="numeric"
+                            />
+                            <View style={{ height: 10 }} />
+
+                            <TextInput
+                                value={cwLng}
+                                onChangeText={setCwLng}
+                                placeholder="Longitude"
+                                placeholderTextColor={theme.colors.textMuted}
+                                style={styles.input}
+                                keyboardType="numeric"
+                            />
+
 
                             <View style={{ height: 12 }} />
                             <AppButton title="Создать мойку" onPress={handleCreateCarWash} />

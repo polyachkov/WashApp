@@ -9,9 +9,9 @@ import { CarWashesService, CarWash } from "@/features/main/carWashes/services/Ca
 import { BoxesService, WashBox } from "@/features/main/boxes/services/BoxesService";
 
 const MOCK_BOXES: WashBox[] = [
-    { id: 1, car_wash_id: 1, number: 1, status: "AVAILABLE" },
-    { id: 2, car_wash_id: 1, number: 2, status: "AVAILABLE" },
-    { id: 3, car_wash_id: 1, number: 3, status: "BUSY" },
+    { id: 1, car_wash_id: 1, number: 1, status: "AVAILABLE", description: "слева от входа" } as any,
+    { id: 2, car_wash_id: 1, number: 2, status: "AVAILABLE", description: "первый справа от входа" } as any,
+    { id: 3, car_wash_id: 1, number: 3, status: "BUSY", description: "второй справа от входа" } as any,
 ];
 
 export const WashBoxesScreen = () => {
@@ -110,7 +110,7 @@ export const WashBoxesScreen = () => {
                     <BoxCard
                         key={String(box.id)}
                         number={box.number}
-                        description={""}
+                        description={(box as any).description ?? ""}
                         status={box.status as any}
                         onPress={() => router.replace(`(main)/wash/box?boxId=${box.id}`)}
                     />
