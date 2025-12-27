@@ -3,15 +3,8 @@ package ru.nsu.washapp.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.domain.Page;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.util.List;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public record PageResponse<T>(
         List<T> content,
         int page,
