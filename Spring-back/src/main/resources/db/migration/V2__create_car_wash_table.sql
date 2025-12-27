@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS car_wash (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(200) NOT NULL,
+    address VARCHAR(500) NOT NULL,
+    latitude DOUBLE PRECISION,
+    longitude DOUBLE PRECISION,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
