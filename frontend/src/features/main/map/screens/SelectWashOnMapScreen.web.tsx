@@ -160,7 +160,13 @@ export default function SelectWashOnMapScreen() {
                 fillOpacity: 0.9,
             }).addTo(map);
 
-            marker.on("click", () => setSelectedId(w.id));
+            const onPick = () => {
+                setSelectedId(w.id);
+                try { marker.openPopup(); } catch {}
+            };
+
+            marker.on("click", onPick);
+            marker.on("tap", onPick);
 
             marker.bindPopup(
                 `<div style="max-width:220px">
@@ -202,19 +208,40 @@ export default function SelectWashOnMapScreen() {
 
             {/* минимальный CSS для leaflet контейнера (без leaflet.css) */}
             <style>{`
-        .leaflet-container { width: 100%; height: 100%; }
-        .leaflet-pane, .leaflet-tile, .leaflet-marker-icon, .leaflet-marker-shadow,
-        .leaflet-tile-container, .leaflet-map-pane svg, .leaflet-map-pane canvas,
-        .leaflet-zoom-box, .leaflet-image-layer, .leaflet-layer { position: absolute; left: 0; top: 0; }
-        .leaflet-control-container { position: absolute; z-index: 1000; }
-        .leaflet-control-zoom { display:none; } /* прячем +/- */
-        .leaflet-popup { position: absolute; text-align: center; margin-bottom: 20px; }
-        .leaflet-popup-content-wrapper { background: white; border-radius: 12px; padding: 8px 10px; border: 1px solid rgba(0,0,0,.15); }
-        .leaflet-control-attribution { font-size: 11px; }
-      `}</style>
+              .leaflet-container {
+                width: 100%;
+                height: 100%;
+                touch-action: none;
+                -webkit-tap-highlight-color: transparent;
+              }
+            
+              .leaflet-pane, .leaflet-tile, .leaflet-tile-container,
+              .leaflet-map-pane svg, .leaflet-map-pane canvas,
+              .leaflet-zoom-box, .leaflet-image-layer, .leaflet-layer {
+                position: absolute; left: 0; top: 0;
+              }
+            
+              .leaflet-tile-pane { z-index: 200; }
+              .leaflet-overlay-pane { z-index: 400; }
+              .leaflet-shadow-pane { z-index: 500; }
+              .leaflet-marker-pane { z-index: 600; }
+              .leaflet-tooltip-pane { z-index: 650; }
+              .leaflet-popup-pane { z-index: 700; }
+            
+              /* КЛЮЧЕВОЕ: чтобы SVG circleMarker был кликабельный */
+              .leaflet-overlay-pane svg { pointer-events: none; }
+              .leaflet-overlay-pane svg .leaflet-interactive { pointer-events: auto; cursor: pointer; }
+            
+              .leaflet-control-container { position: absolute; z-index: 1000; }
+              .leaflet-control-zoom { display:none; }
+              .leaflet-popup { position: absolute; text-align: center; margin-bottom: 20px; }
+              .leaflet-popup-content-wrapper { background: white; border-radius: 12px; padding: 8px 10px; border: 1px solid rgba(0,0,0,.15); }
+              .leaflet-control-attribution { font-size: 11px; }
+            `}</style>
+
 
             <View style={styles.mapCard}>
-                <div id={mapDivId} style={{ width: "100%", height: "100%" }} />
+                <div id={mapDivId} style={{width: "100%", height: "100%"}}/>
             </View>
 
             <View style={styles.address}>
@@ -224,9 +251,9 @@ export default function SelectWashOnMapScreen() {
             </View>
 
             <View style={styles.actions}>
-                <AppButton title="Выбрать" onPress={handlePick} disabled={!selectedId} />
-                <View style={{ height: 12 }} />
-                <AppButton title="Назад" onPress={() => router.back()} />
+                <AppButton title="Выбрать" onPress={handlePick} disabled={!selectedId}/>
+                <View style={{height: 12}}/>
+                <AppButton title="Назад" onPress={() => router.back()}/>
             </View>
         </View>
     );
